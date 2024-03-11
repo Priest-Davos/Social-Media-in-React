@@ -1,0 +1,26 @@
+.app-container{
+  display: flex;
+}
+.footer-container{
+  background-color: rgb(155, 203, 201);
+ 
+
+  /* color: rgb(223, 20, 20); */
+}
+
+.content{
+  width:100%;
+}
+.sidebar{
+  min-height: 669px;
+}
+.post-card{
+  margin: 9px 69px;
+  
+}
+.card-body{
+  background-color:rgb(188, 229, 215) ;
+}
+.hashtag{
+  margin: 0px 3px;
+}
