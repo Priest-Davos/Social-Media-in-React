@@ -16,11 +16,22 @@
 }
 .post-card{
   margin: 9px 69px;
+
   
 }
+
 .card-body{
   background-color:rgb(188, 229, 215) ;
 }
 .hashtag{
-  margin: 0px 3px;
+  margin: 0px 7px;
+}
+
+.reactions{
+  margin: 13px 0px 0px 0px; 
+}
+
+/* to remove the inherrited margin of reaction alert tag */
+.alert.alert-warning.reactions {
+  margin-bottom: 0px;
 }

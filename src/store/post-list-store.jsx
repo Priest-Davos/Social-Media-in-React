@@ -10,7 +10,7 @@ export const PostListContext = createContext({
 const DEFAULT_POST_LIST = [
   {
     id: "1",
-    title: "Card B ",
+    title: "Card 1 ",
     body: "Looking like a wow, so elligant,so sweet",
     reactions:69,
     userId:'u-9',
@@ -40,7 +40,16 @@ const DEFAULT_POST_LIST = [
 
 
 const postListReducer = (currentPostList, action) => {
-  let newPostList
+  let newPostList=currentPostList
+  if (action.type=="DEL"){
+    let delPostId=action.payload.id
+      
+      newPostList=currentPostList.filter(post=> post.id != delPostId)
+      console.log(newPostList)
+      // console.log((delPostId in currentPostList.id))
+      // console.log("yes")
+    }
+  
 
   return newPostList
 
@@ -54,8 +63,15 @@ const PostListProvider = ({ children }) => {
   const addPost = () => {
 
   }
-  const deletePost = () => {
-
+  const deletePost = (id) => {
+    const deleteActionObj={
+      type:"DEL",
+      payload:{
+       id:id,
+      },
+    }
+    dispatchPostList(deleteActionObj)
+console.log(`post ->${id} should be deleted`)
   }
 
   return (

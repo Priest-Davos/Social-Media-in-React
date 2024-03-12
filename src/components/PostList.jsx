@@ -10,7 +10,7 @@ const PostList = () => {
 
   const postListContextObj=useContext(PostListContext)
   const postList=postListContextObj.postList
-  console.log(postList)
+  // console.log(postList)
 
   return (
 
