@@ -5,6 +5,7 @@ import { PostListContext } from "../store/post-list-store";
 const Post = ({ post }) => {
 
   const {deletePost}=useContext(PostListContext)
+  console.log(post.tags)
 
 
   return (

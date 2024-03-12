@@ -10,6 +10,7 @@
 
 .content{
   width:100%;
+  background-color: rgb(1, 4, 2);
 }
 .sidebar{
   min-height: 669px;
@@ -41,4 +42,8 @@
   width: 69%;
   margin-top: 50px;
   margin-left: 9%;
+  background-color: aqua;
+  padding: 9px;
+  border: 3px solid red;
+  border-radius: 13px;
 }

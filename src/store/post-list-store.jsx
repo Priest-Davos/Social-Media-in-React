@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useRef } from "react";
 
 export const PostListContext = createContext({
   postList: [],
@@ -12,44 +12,52 @@ const DEFAULT_POST_LIST = [
     id: "1",
     title: "Card 1 ",
     body: "Looking like a wow, so elligant,so sweet",
-    reactions:69,
-    userId:'u-9',
-    tags:["#gorgeous", "#sweet", "#wow"],
+    reactions: 69,
+    userId: 'u-9',
+    tags: ["#gorgeous", "#sweet" ,"#wow"],
   },
   {
     id: "2",
     title: "Card 2",
     body: "content 2",
-    reactions:89,
-    userId:'u-3',
-    tags:["none"],
+    reactions: 89,
+    userId: 'u-3',
+    tags: ["none"],
   },
 
-  {
-    id: "3",
-    title: "Card 3",
-    body: "content 3",
-    reactions:7,
-    userId:'u-9',
-    tags:["content"],
-  },
-
-
+  // {
+  //   id: "3",
+  //   title: "Card 3",
+  //   body: "content 3",
+  //   reactions: 7,
+  //   userId: 'u-9',
+  //   tags: ["content"],
+  // },
 
 ]
 
 
 const postListReducer = (currentPostList, action) => {
-  let newPostList=currentPostList
-  if (action.type=="DEL"){
-    let delPostId=action.payload.id
-      
-      newPostList=currentPostList.filter(post=> post.id != delPostId)
-      console.log(newPostList)
-      // console.log((delPostId in currentPostList.id))
-      // console.log("yes")
-    }
-  
+  let newPostList = currentPostList
+  if (action.type == "DEL") {
+    let delPostId = action.payload.id
+
+    newPostList = currentPostList.filter(post => post.id != delPostId)
+    console.log(newPostList)
+    // console.log((delPostId in currentPostList.id))
+    // console.log("yes")
+  }
+else if(action.type==="ADD"){
+  newPostList=[  {
+    id: action.payload.id,
+    title: action.payload.postTitle,
+    body: action.payload.postBody,
+    reactions: action.payload.reactions,
+    userId: action.payload.userId,
+    tags: action.payload.tags,
+  },...currentPostList,
+  ]
+}
 
   return newPostList
 
@@ -60,15 +68,20 @@ const postListReducer = (currentPostList, action) => {
 const PostListProvider = ({ children }) => {
 
   const [postList, dispatchPostList] = useReducer(postListReducer, DEFAULT_POST_LIST)
-  const addPost = () => {
 
+
+  //  called it in createPost component with thes value so accept these value as argument here
   const addPost = (userId, postTitle, postBody, reactions, tags) => {
-    console.log(`${userId},${postTitle},${postBody},${reactions},${tags}`)
+    // console.log(`${userId},${postTitle},${postBody},${reactions},${tags}`)
     const addPostObj = {
       type: "ADD",
       payload: {
         id:Date.now(),userId, postTitle, postBody, reactions, tags,//same name so..
+      }
+    }
+    dispatchPostList(addPostObj)
   }
+
   const deletePost = (id) => {
     const deleteActionObj = {
       type: "DEL",
@@ -77,7 +90,7 @@ const PostListProvider = ({ children }) => {
       },
     }
     dispatchPostList(deleteActionObj)
-console.log(`post ->${id} should be deleted`)
+    console.log(`post ->${id} should be deleted`)
   }
 
   return (
