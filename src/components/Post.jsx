@@ -21,7 +21,7 @@ const Post = ({ post }) => {
         <p className="card-text">{post.body}</p>
         {/* <a href="#" className="btn btn-primary">Go somewhere</a>*/}
         {post.tags.map((tag) => ( <span key={tag} className="badge text-bg-primary hashtag">{tag}</span>))}
-        <div className="alert alert-warning reactions" role="alert">{`${post.reactions}  peopole reacted to this post`}</div>
+        <div className="alert alert-warning reactions" role="alert">{`${post.reactions}  people reacted to this post`}</div>
       </div>
     </div>
   )

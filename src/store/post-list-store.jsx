@@ -62,12 +62,18 @@ const PostListProvider = ({ children }) => {
   const [postList, dispatchPostList] = useReducer(postListReducer, DEFAULT_POST_LIST)
   const addPost = () => {
 
+  const addPost = (userId, postTitle, postBody, reactions, tags) => {
+    console.log(`${userId},${postTitle},${postBody},${reactions},${tags}`)
+    const addPostObj = {
+      type: "ADD",
+      payload: {
+        id:Date.now(),userId, postTitle, postBody, reactions, tags,//same name so..
   }
   const deletePost = (id) => {
-    const deleteActionObj={
-      type:"DEL",
-      payload:{
-       id:id,
+    const deleteActionObj = {
+      type: "DEL",
+      payload: {
+        id: id,
       },
     }
     dispatchPostList(deleteActionObj)
