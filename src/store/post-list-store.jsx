@@ -7,35 +7,6 @@ export const PostListContext = createContext({
 });//create context for PostList
 
 
-const DEFAULT_POST_LIST = [
-  {
-    id: "1",
-    title: "Card 1 ",
-    body: "Looking like a wow, so elligant,so sweet",
-    reactions: 69,
-    userId: 'u-9',
-    tags: ["#gorgeous", "#sweet" ,"#wow"],
-  },
-  {
-    id: "2",
-    title: "Card 2",
-    body: "content 2",
-    reactions: 89,
-    userId: 'u-3',
-    tags: ["none"],
-  },
-
-  // {
-  //   id: "3",
-  //   title: "Card 3",
-  //   body: "content 3",
-  //   reactions: 7,
-  //   userId: 'u-9',
-  //   tags: ["content"],
-  // },
-
-]
-
 
 const postListReducer = (currentPostList, action) => {
   let newPostList = currentPostList
@@ -67,7 +38,7 @@ else if(action.type==="ADD"){
 // as they all will get the value prop
 const PostListProvider = ({ children }) => {
 
-  const [postList, dispatchPostList] = useReducer(postListReducer, DEFAULT_POST_LIST)
+  const [postList, dispatchPostList] = useReducer(postListReducer, [])
 
 
   //  called it in createPost component with thes value so accept these value as argument here
