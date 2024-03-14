@@ -3,6 +3,7 @@ import { createContext, useReducer, useRef } from "react";
 export const PostListContext = createContext({
   postList: [],
   addPost: () => { },
+  addInitialPosts: () => { },
   deletePost: () => { },
 });//create context for PostList
 
@@ -13,22 +14,25 @@ const postListReducer = (currentPostList, action) => {
   if (action.type == "DEL") {
     let delPostId = action.payload.id
 
-    newPostList = currentPostList.filter(post => post.id != delPostId)
-    console.log(newPostList)
-    // console.log((delPostId in currentPostList.id))
-    // console.log("yes")
+    newPostList = currentPostList.filter(post => post.id != delPostId);
+    
   }
-else if(action.type==="ADD"){
-  newPostList=[  {
-    id: action.payload.id,
-    title: action.payload.postTitle,
-    body: action.payload.postBody,
-    reactions: action.payload.reactions,
-    userId: action.payload.userId,
-    tags: action.payload.tags,
-  },...currentPostList,
-  ]
-}
+
+  else if (action.type === "ADD_INITIAL_POSTS") {
+    console.log(action.payload.posts_30)
+    newPostList = action.payload.posts_30;
+  }
+  else if (action.type === "ADD") {
+    newPostList = [{
+      id: action.payload.id,
+      title: action.payload.postTitle,
+      body: action.payload.postBody,
+      reactions: action.payload.reactions,
+      userId: action.payload.userId,
+      tags: action.payload.tags,
+    }, ...currentPostList,
+    ]
+  }
 
   return newPostList
 
@@ -47,10 +51,21 @@ const PostListProvider = ({ children }) => {
     const addPostObj = {
       type: "ADD",
       payload: {
-        id:Date.now(),userId, postTitle, postBody, reactions, tags,//same name so..
+        id: Date.now(), userId, postTitle, postBody, reactions, tags,//same name so..
       }
     }
     dispatchPostList(addPostObj)
+  }
+
+  //this meth will take 30 posts as argument and call dispatchPostList with obj
+  //call it in postListcomponent with posts_30 as parameter
+  const addInitialPosts = (posts_30) => {
+    // console.log(posts_30)
+    const initialPostObj = {
+      type: "ADD_INITIAL_POSTS",
+      payload: { posts_30: posts_30, }
+    }
+    dispatchPostList(initialPostObj)
   }
 
   const deletePost = (id) => {
@@ -61,7 +76,7 @@ const PostListProvider = ({ children }) => {
       },
     }
     dispatchPostList(deleteActionObj)
-    console.log(`post ->${id} should be deleted`)
+    // console.log(`post ->${id} should be deleted`)
   }
 
   return (
@@ -69,6 +84,7 @@ const PostListProvider = ({ children }) => {
       {
         postList: postList,
         addPost: addPost,
+        addInitialPosts,//will call it in PostList component
         deletePost: deletePost,
       }
     }>
