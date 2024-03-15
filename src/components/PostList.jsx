@@ -1,8 +1,9 @@
 import { PostListContext } from "../store/post-list-store"
 import Post from "./Post"
 
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import WelcumMsg from "./WelcumMsg"
+import LoadingSpinner from "./LoadingSpinner"
 
 
 const PostList = () => {
@@ -11,26 +12,51 @@ const PostList = () => {
   const postListContextObj=useContext(PostListContext)
   const postList=postListContextObj.postList
   const addInitialPosts=postListContextObj.addInitialPosts
-  // console.log(postList)
 
+
+//fetch data once without using  buttopn as  previously was fetching poost when btn clicked
+  // const [isDataFetched,setIsDataFetched]=useState(false)
+  // if(!isDataFetched){
+  //   fetch("https://dummyjson.com/posts")
+  //   .then(res => res.json())
+  
+  //   .then( (data) =>{ addInitialPosts(data.posts)})
+  
+  //   setIsDataFetched(true)
+  // }//but not recommended  so use useEffectHook
+
+  //creating a useState for Loading Spinner
+  const [fetching, setFetching] =useState(false)
+
+  useEffect(()=>{
+    setFetching(true)
+    fetch("https://dummyjson.com/posts") .then(res => res.json()) 
+    .then( (data) =>{
+       addInitialPosts(data.posts);
+      setFetching(false)})
+  },[])
   
 
-const handleGetPostClick=()=>{
-  console.log("clicked")
-  fetch("https://dummyjson.com/posts")
-  .then(res => res.json())
 
-  .then( (data) =>{ addInitialPosts(data.posts)})
+  //no need of it  so can remove
+const handleGetPostClick=()=>{
+  // console.log("clicked")
+  // fetch("https://dummyjson.com/posts")
+  // .then(res => res.json())
+
+  // .then( (data) =>{ addInitialPosts(data.posts)})
 
 }
+
 
 
 
   return (
 
     <div>
-    {postList.length==0 && <WelcumMsg  onGetPostClick={handleGetPostClick}/>}
-    {  postList.map((post)=><Post key={post.id} post={post}/>)}
+    {fetching && <LoadingSpinner/>}
+    {!fetching && postList.length==0 && <WelcumMsg  onGetPostClick={handleGetPostClick}/>}
+    { !fetching && postList.map((post)=><Post key={post.id} post={post}/>)}
     </div>
 
 
