@@ -23,7 +23,7 @@ const CreatePost = () => {
     const postBody = postBodyReference.current.value;
     const reactions = reactionsReference.current.value;
     const tags = (tagsReference.current.value).split(" ");
-    console.log(tags)
+    // console.log(tags)
 
     // After accessing and assigning the value , setting the field empty
     userIdReference.current.value = ""

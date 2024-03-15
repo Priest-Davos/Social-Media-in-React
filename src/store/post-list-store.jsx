@@ -19,7 +19,7 @@ const postListReducer = (currentPostList, action) => {
   }
 
   else if (action.type === "ADD_INITIAL_POSTS") {
-    console.log(action.payload.posts_30)
+    // console.log(action.payload.posts_30)
     newPostList = action.payload.posts_30;
   }
   else if (action.type === "ADD") {
@@ -32,6 +32,7 @@ const postListReducer = (currentPostList, action) => {
       tags: action.payload.tags,
     }, ...currentPostList,
     ]
+    // console.log(currentPostList)
   }
 
   return newPostList
