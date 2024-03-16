@@ -9,44 +9,56 @@ import LoadingSpinner from "./LoadingSpinner"
 const PostList = () => {
 
 
-  const postListContextObj=useContext(PostListContext)
-  const postList=postListContextObj.postList
-  const addInitialPosts=postListContextObj.addInitialPosts
+  const postListContextObj = useContext(PostListContext)
+  const postList = postListContextObj.postList
+  const addInitialPosts = postListContextObj.addInitialPosts
 
 
-//fetch data once without using  buttopn as  previously was fetching poost when btn clicked
+  //fetch data once without using  buttopn as  previously was fetching poost when btn clicked
   // const [isDataFetched,setIsDataFetched]=useState(false)
   // if(!isDataFetched){
   //   fetch("https://dummyjson.com/posts")
   //   .then(res => res.json())
-  
+
   //   .then( (data) =>{ addInitialPosts(data.posts)})
-  
+
   //   setIsDataFetched(true)
   // }//but not recommended  so use useEffectHook
 
   //creating a useState for Loading Spinner
-  const [fetching, setFetching] =useState(false)
+  const [fetching, setFetching] = useState(false)
 
-  useEffect(()=>{
+
+  useEffect(() => {
+    
+  const controller = new AbortController();
+  const signal = controller.signal;
     setFetching(true)
-    fetch("https://dummyjson.com/posts") .then(res => res.json()) 
-    .then( (data) =>{
-       addInitialPosts(data.posts);
-      setFetching(false)})
-  },[])
-  
+    fetch("https://dummyjson.com/posts", { signal }).then(res => res.json())
+      .then((data) => {
+        addInitialPosts(data.posts);
+        setFetching(false)
+      }
+      )
+
+    return () => {
+
+      console.log("useEffect Cleanup")
+      controller.abort()
+    }
+  }, [])
+
 
 
   //no need of it  so can remove
-const handleGetPostClick=()=>{
-  // console.log("clicked")
-  // fetch("https://dummyjson.com/posts")
-  // .then(res => res.json())
+  const handleGetPostClick = () => {
+    // console.log("clicked")
+    // fetch("https://dummyjson.com/posts")
+    // .then(res => res.json())
 
-  // .then( (data) =>{ addInitialPosts(data.posts)})
+    // .then( (data) =>{ addInitialPosts(data.posts)})
 
-}
+  }
 
 
 
@@ -54,9 +66,9 @@ const handleGetPostClick=()=>{
   return (
 
     <div>
-    {fetching && <LoadingSpinner/>}
-    {!fetching && postList.length==0 && <WelcumMsg  onGetPostClick={handleGetPostClick}/>}
-    { !fetching && postList.map((post)=><Post key={post.id} post={post}/>)}
+      {fetching && <LoadingSpinner />}
+      {!fetching && postList.length == 0 && <WelcumMsg onGetPostClick={handleGetPostClick} />}
+      {!fetching && postList.map((post) => <Post key={post.id} post={post} />)}
     </div>
 
 
