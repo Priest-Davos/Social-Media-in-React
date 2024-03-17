@@ -3,7 +3,7 @@ import { PostListContext } from "../store/post-list-store";
 
 const CreatePost = () => {
 
- 
+
   const { addPost } = useContext(PostListContext)//call it in onSubmit
 
   //create the useRef state and pass each to their respective ref attribute of inputField
@@ -32,8 +32,29 @@ const CreatePost = () => {
     reactionsReference.current.value = ""
     tagsReference.current.value = ""
 
- //call it so that it will get all the field values
-    addPost(userId, postTitle, postBody, reactions, tags)
+
+
+    // Add a new post ,Adding a new post will not add it into the server.
+    // It will simulate a POST request and will return the new created post with a new id
+    // console.log("Sending post to server")
+    fetch('https://dummyjson.com/posts/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: userId, //can remove it since getting from sever
+        title: postTitle,
+        body: postBody,
+        reactions: reactions,
+        userId: userId,
+        tags: tags,
+      })
+    })
+      .then(res => res.json())
+      .then(post=>{
+        // console.log("got response from server",post)
+        addPost(post)})//update addPost param accoring to it since passing whole obj
+       
+
   }
 
   return (
@@ -70,3 +91,9 @@ const CreatePost = () => {
   )
 }
 export default CreatePost
+
+
+// ignore below
+// old
+//call it so that it will get all the field values
+// addPost(userId, postTitle, postBody, reactions, tags)//instead of passing each field,pass the obj  got from the server
