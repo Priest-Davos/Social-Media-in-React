@@ -23,16 +23,8 @@ const postListReducer = (currentPostList, action) => {
     newPostList = action.payload.posts_30;
   }
   else if (action.type === "ADD") {
-    newPostList = [{
-      id: action.payload.id,
-      title: action.payload.postTitle,
-      body: action.payload.postBody,
-      reactions: action.payload.reactions,
-      userId: action.payload.userId,
-      tags: action.payload.tags,
-    }, ...currentPostList,
-    ]
-    // console.log(currentPostList)
+    // console.log(action.payload)
+    newPostList = [action.payload.post, ...currentPostList ]
   }
 
   return newPostList
@@ -47,12 +39,13 @@ const PostListProvider = ({ children }) => {
 
 
   //  called it in createPost component with thes value so accept these value as argument here
-  const addPost = (userId, postTitle, postBody, reactions, tags) => {
+  const addPost = (post) => {
     // console.log(`${userId},${postTitle},${postBody},${reactions},${tags}`)
+    // console.log(post)
     const addPostObj = {
       type: "ADD",
       payload: {
-        id: Date.now(), userId, postTitle, postBody, reactions, tags,//same name so..
+       post
       }
     }
     dispatchPostList(addPostObj)
@@ -95,3 +88,35 @@ const PostListProvider = ({ children }) => {
 }
 
 export default PostListProvider
+
+
+
+// ignore below
+
+    // old addpost method
+  // const addPost = (userId, postTitle, postBody, reactions, tags) => {
+  //   // console.log(`${userId},${postTitle},${postBody},${reactions},${tags}`)
+  //   const addPostObj = {
+  //     type: "ADD",
+  //     payload: {
+  //       id: Date.now(), userId, postTitle, postBody, reactions, tags,//same name so..
+  //     }
+  //   }
+  //   dispatchPostList(addPostObj)
+  // }
+
+
+
+  // old
+  // else if (action.type === "ADD") {
+  //   newPostList = [{
+  //     id: action.payload.id,
+  //     title: action.payload.postTitle,
+  //     body: action.payload.postBody,
+  //     reactions: action.payload.reactions,
+  //     userId: action.payload.userId,
+  //     tags: action.payload.tags,
+  //   }, ...currentPostList,
+  //   ]
+         //   // console.log(currentPostList)
+  // }
