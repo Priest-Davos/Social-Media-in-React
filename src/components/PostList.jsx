@@ -11,9 +11,9 @@ const PostList = () => {
 
   const postListContextObj = useContext(PostListContext)
   const postList = postListContextObj.postList
-  const addInitialPosts = postListContextObj.addInitialPosts
-
-
+  // const addInitialPosts = postListContextObj.addInitialPosts//no need
+  const fetching=postListContextObj.fetching
+// console.log(fetching)
   //fetch data once without using  buttopn as  previously was fetching poost when btn clicked
   // const [isDataFetched,setIsDataFetched]=useState(false)
   // if(!isDataFetched){
@@ -25,28 +25,6 @@ const PostList = () => {
   //   setIsDataFetched(true)
   // }//but not recommended  so use useEffectHook
 
-  //creating a useState for Loading Spinner
-  const [fetching, setFetching] = useState(false)
-
-
-  useEffect(() => {
-    
-  const controller = new AbortController();
-  const signal = controller.signal;
-    setFetching(true)
-    fetch("https://dummyjson.com/posts", { signal }).then(res => res.json())
-      .then((data) => {
-        addInitialPosts(data.posts);
-        setFetching(false)
-      }
-      )
-
-    return () => {
-
-      console.log("useEffect Cleanup")
-      controller.abort()
-    }
-  }, [])
 
 
 

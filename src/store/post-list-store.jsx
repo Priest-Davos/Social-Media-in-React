@@ -1,9 +1,10 @@
-import { createContext, useReducer, useRef } from "react";
+import { createContext, useReducer, useRef,useEffect,useState } from "react";
 
 export const PostListContext = createContext({
   postList: [],
   addPost: () => { },
-  addInitialPosts: () => { },
+  // addInitialPosts: () => { },// no need
+  fetching: false,
   deletePost: () => { },
 });//create context for PostList
 
@@ -40,7 +41,6 @@ const PostListProvider = ({ children }) => {
 
   //  called it in createPost component with thes value so accept these value as argument here
   const addPost = (post) => {
-    // console.log(`${userId},${postTitle},${postBody},${reactions},${tags}`)
     // console.log(post)
     const addPostObj = {
       type: "ADD",
@@ -73,12 +73,45 @@ const PostListProvider = ({ children }) => {
     // console.log(`post ->${id} should be deleted`)
   }
 
+
+    //creating a useState for Loading Spinner
+    const [fetching, setFetching] = useState(false)
+
+    useEffect(() => {  
+    const controller = new AbortController();
+    const signal = controller.signal;
+      setFetching(true)
+      fetch("https://dummyjson.com/posts", { signal })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");}
+        return res.json()
+      })
+        .then((data) => {
+          addInitialPosts(data.posts);
+          setFetching(false)
+        })
+        .catch(error => {
+          console.error("Error fetching data:", error);
+          setFetching(false); // Update fetching state to indicate fetch failure
+        });
+  
+      return () => {
+  
+        console.log("useEffect Cleanup")
+        controller.abort()
+      }
+    }, [])
+    //..................................................
+  
+
   return (
     <PostListContext.Provider value={
       {
         postList: postList,
         addPost: addPost,
-        addInitialPosts,//will call it in PostList component
+        // addInitialPosts,//will call it in PostList component
+        fetching:fetching,
         deletePost: deletePost,
       }
     }>
