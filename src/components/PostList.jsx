@@ -13,7 +13,7 @@ const PostList = () => {
   const postList = postListContextObj.postList
   // const addInitialPosts = postListContextObj.addInitialPosts//no need
   const fetching=postListContextObj.fetching
-// console.log(fetching)
+console.log(fetching)
   //fetch data once without using  buttopn as  previously was fetching poost when btn clicked
   // const [isDataFetched,setIsDataFetched]=useState(false)
   // if(!isDataFetched){

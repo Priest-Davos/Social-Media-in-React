@@ -1,8 +1,15 @@
-const Sidebar = ({selectedTab ,setSelectedTab}) => {
+import { Link } from "react-router-dom"
+import { useState } from "react"
 
-  
+const Sidebar = () => {
+
+//maintain  a state for adding the active class to link conditionally
+  const [selectedTab, setSelectedTab] = useState("")
+
+
 const HandleOnClick=(event)=>{
   setSelectedTab(event.target.innerText )
+  // console.log(selectedTab)
   }
   
   //console.log(selectedTab)
@@ -16,28 +23,28 @@ const HandleOnClick=(event)=>{
     <hr/>
     <ul className="nav nav-pills flex-column mb-auto">
       <li className="nav-item">
-        <a href="#" className={`nav-link text-white ${selectedTab==="Home" && 'active'}`} aria-current="page" onClick={HandleOnClick}>
+        <Link to="/" className={`nav-link text-white ${selectedTab==="Home" && 'active'}`} aria-current="page" onClick={HandleOnClick}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#home"></use></svg>
           Home
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="#" className={`nav-link text-white  ${selectedTab==="Create Post" && 'active'}` } onClick={HandleOnClick} >
+        <Link to="create-post" className={`nav-link text-white  ${selectedTab==="Create Post" && 'active'}` } onClick={HandleOnClick} >
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#speedometer2"></use></svg>
           Create Post
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="#" className={`nav-link text-white  ${selectedTab==="Demo1" && 'active'}` } onClick={HandleOnClick}>
+        <Link to="demo1" className={`nav-link text-white  ${selectedTab==="Demo1" && 'active'}` } onClick={HandleOnClick}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
           Demo1
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="#" className={`nav-link text-white  ${selectedTab==="Demo2" && 'active'}` } onClick={HandleOnClick}>
+        <Link to="demo2" className={`nav-link text-white  ${selectedTab==="Demo2" && 'active'}` } onClick={HandleOnClick}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#grid"></use></svg>
           Demo2
-        </a>
+        </Link>
       </li>
     </ul>
     <hr/>

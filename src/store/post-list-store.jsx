@@ -92,14 +92,15 @@ const PostListProvider = ({ children }) => {
           setFetching(false)
         })
         .catch(error => {
-          console.error("Error fetching data:", error);
+          console.error("Error hai fetching data me:", error);
           setFetching(false); // Update fetching state to indicate fetch failure
         });
   
       return () => {
   
-        console.log("useEffect Cleanup")
-        controller.abort()
+        // console.log("useEffect Cleanup")
+        //since running in strict mode so fetch state not function expected  so comment below line
+        // controller.abort()
       }
     }, [])
     //..................................................

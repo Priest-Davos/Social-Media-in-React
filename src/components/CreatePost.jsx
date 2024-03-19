@@ -1,7 +1,9 @@
 import { useContext, useRef } from "react";
 import { PostListContext } from "../store/post-list-store";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
+  const navigate=useNavigate();
 
 
   const { addPost } = useContext(PostListContext)//call it in onSubmit
@@ -52,8 +54,11 @@ const CreatePost = () => {
       .then(res => res.json())
       .then(post=>{
         // console.log("got response from server",post)
-        addPost(post)})//update addPost param accoring to it since passing whole obj
-       
+        addPost(post);
+        navigate("/");
+      
+      })//update addPost param accoring to it since passing whole obj
+     
 
   }
 
